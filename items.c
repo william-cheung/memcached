@@ -104,6 +104,7 @@ static int is_flushed(item *it) {
     uint64_t oldest_cas = settings.oldest_cas;
     if (oldest_live == 0 || oldest_live > current_time)
         return 0;
+
     if ((it->time <= oldest_live) 
             || (oldest_cas != 0 && cas != 0 && cas < oldest_cas)) {
         return 1;
@@ -806,6 +807,7 @@ static int lru_pull_tail(const int orig_id, const int cur_lru,
         if ((search->exptime != 0 && search->exptime < current_time)
             || is_flushed(search)) {
             itemstats[id].reclaimed++;
+
             if ((search->it_flags & ITEM_FETCHED) == 0) { // stored but never fetched
                 itemstats[id].expired_unfetched++;
             }
@@ -1227,7 +1229,7 @@ static void item_crawler_evaluate(item *search, uint32_t hv, int i) {
             s->ttl_hourplus++;
         } else {
             rel_time_t ttl_remain = search->exptime - current_time;
-            int bucket = ttl_remain / 60; // min
+            int bucket = ttl_remain / 60;
             s->histo[bucket]++;
         }
     }

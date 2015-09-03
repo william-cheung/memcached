@@ -33,6 +33,7 @@
 #ifndef __need_IOV_MAX
 #define __need_IOV_MAX
 #endif
+
 #include <pwd.h>				// for password structure
 #include <sys/mman.h>			// memory management declarations
 #include <fcntl.h>
@@ -4623,6 +4624,7 @@ static int server_sockets(int port, enum network_transport transport,
                     return 1;
                 }
             }
+
             if (strcmp(p, "*") == 0) { // comment ?
                 p = NULL;
             }

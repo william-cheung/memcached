@@ -737,6 +737,7 @@ void memcached_thread_init(int nthreads, struct event_base *main_base) {
     cqi_freelist = NULL;
 
     /* Want a wide lock table, but don't waste memory */
+
     if (nthreads < 3) { // 0 1 2
         power = 10;
     } else if (nthreads < 4) { // 3

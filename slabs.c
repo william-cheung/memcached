@@ -695,7 +695,6 @@ static void slab_rebalance_finish(void) {
 }
 
 
-
 /* Iterate at most once through the slab classes and pick a "random" source.
  * I like this better than calling rand() since rand() is slow enough that we
  * can just check all of the classes once instead.

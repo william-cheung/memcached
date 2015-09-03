@@ -75,6 +75,7 @@ void assoc_init(const int hashtable_init) {
     STATS_UNLOCK();
 }
 
+
 item *assoc_find(const char *key, const size_t nkey, const uint32_t hv) { // item_lock(hv) has been called
     item *it;
     unsigned int oldbucket;
@@ -171,7 +172,6 @@ void assoc_delete(const char *key, const size_t nkey, const uint32_t hv) {
     assert(*before != 0);
 }
 
-
 /* grows the hashtable to the next power of 2. */
 static void assoc_expand(void) {
     old_hashtable = primary_hashtable;
@@ -201,6 +201,7 @@ static void assoc_start_expand(void) {
     started_expanding = true;
     pthread_cond_signal(&maintenance_cond);
 }
+
 
 static volatile int do_run_maintenance_thread = 1;
 
