@@ -19,7 +19,7 @@ static void item_link_q(item *it);
 static void item_unlink_q(item *it);
 
 #define HOT_LRU 0			// 00000000
-#define WARM_LRU 64		// 01000000
+#define WARM_LRU 64			// 01000000
 #define COLD_LRU 128		// 10000000
 #define NOEXP_LRU 192		// 11000000
 static unsigned int lru_type_map[4] = {HOT_LRU, WARM_LRU, COLD_LRU, NOEXP_LRU};
@@ -1290,7 +1290,9 @@ static void *item_crawler_thread(void *arg) {
             /* Interface for this could improve: do the free/decr here
              * instead? */
             pthread_mutex_lock(&lru_crawler_stats_lock);
-            item_crawler_evaluate(search, hv, i);
+            // while reaching here, search->refcount equals to 2
+            item_crawler_evaluate(search, hv, i); // free expired item and collect stats 
+            // here search is freed (if it's flushed or expired) or its refcnt is reset to 1
             pthread_mutex_unlock(&lru_crawler_stats_lock);
 
             if (hold_lock)
